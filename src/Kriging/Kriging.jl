@@ -6,7 +6,7 @@ end
 
 include("tune.jl")
 include("predict.jl")
-
+include("append.jl")
 function Kriging(
     x::AbstractMatrix,
     y::AbstractMatrix,
@@ -50,8 +50,3 @@ function Kriging(
     end
     Kriging{nx,ny,typeof(xscaler),typeof(yscaler)}(xscaler, yscaler, gps)
 end
-
-Kriging(x::AbstractVector, y::AbstractMatrix, args...; kw...) =
-    Kriging(transpose(x), y, args...; kw...)
-Kriging(x, y::AbstractVector, args...; kw...) =
-    Kriging(x, transpose(y), args...; kw...)
