@@ -79,3 +79,5 @@ Base.:\(s::LinearScaler, x::AbstractVecOrMat) = inverse(s, x)
 
 inverse_variance!(s::LinearScaler, v::AbstractVecOrMat) = @. v *= s.zoomer^2
 transform_variance!(s::LinearScaler, v::AbstractVecOrMat) = @. v /= s.zoomer^2
+
+Base.eltype(s::LinearScaler) = eltype(s.offset)

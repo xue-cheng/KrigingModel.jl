@@ -50,3 +50,17 @@ function Kriging(
     end
     Kriging{nx,ny,typeof(xscaler),typeof(yscaler)}(xscaler, yscaler, gps)
 end
+
+
+getx(krg::Kriging, i::Int) = krg.xscaler\view(krg.gps[1].x, :, i)
+
+function gety(krg::Kriging{N,M}, i::Int)where{N,M}
+    y = similar(krg.gps[1].y, M)
+    @inbounds for j = 1:M
+        y[j] = krg.gps[j].y[i]
+    end
+    inverse!(krg.yscaler, y)
+    y
+end
+
+Base.getindex(krg::Kriging, i::Integer) = gety(krg,i), getx(krg,i)
