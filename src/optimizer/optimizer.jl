@@ -4,11 +4,11 @@ abstract type Optimizer end
 
 abstract type GlobalOptimizer <: Optimizer end
 
-abstract type LocalOptimzier <: Optimizer end
+abstract type LocalOptimizer <: Optimizer end
 
 
 isglobal(::GlobalOptimizer) = true
-isglobal(::LocalOptimzier) = false
+isglobal(::LocalOptimizer) = false
 
 minimize(o::Optimizer, f, g, lb, ub, x) =
     minimize(o, wrap_function(f, g), lb, ub, x)

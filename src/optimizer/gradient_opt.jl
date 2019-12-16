@@ -1,6 +1,6 @@
 
 
-struct GradientLocalOptimizer <: LocalOptimzier
+struct GradientLocalOptimizer <: LocalOptimizer
     algo::Symbol
     options::Dict{Symbol,Any}
 end

@@ -1,4 +1,4 @@
-struct GradFreeLocalOptimizer <: LocalOptimzier
+struct GradFreeLocalOptimizer <: LocalOptimizer
     algo::Symbol
     options::Dict{Symbol,Any}
 end
