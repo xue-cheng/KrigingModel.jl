@@ -18,6 +18,6 @@ include("Kriging/Kriging.jl")
 export StandardScaler, MinMaxScaler
 export CRSOptimizer, ISRESOptimizer, LBFGSOptimizer, BOBYQAOptimizer
 export minimize, maximize
-export Kriging, tune!, predict_full, getx, gety
+export Kriging, tune!, predict_full, getx, gety, get_samples
 
 end # module

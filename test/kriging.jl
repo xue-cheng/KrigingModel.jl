@@ -20,7 +20,12 @@
         y_pred, sig2 = predict_full(krg, xtest)
     end
     @testset "tune" begin
-        tune!(krg, ([-10.0, -10.0], [10.0, 10.0]), nothing; global_eval = 10000)
+        tune!(
+            krg,
+            ([-10.0, -10.0], [10.0, 10.0]),
+            nothing;
+            global_eval = 10000,
+        )
     end
     @testset "append" begin
         append!(krg, xtest, ytest)
@@ -28,7 +33,7 @@
     @testset "get" begin
         x1 = getx(krg, 1)
         y1 = gety(krg, 1)
-        @test x1 ≈ x[:,1] atol=1e-6
-        @test y1 ≈ y[:,1] atol=1e-6
+        @test x1 ≈ x[:, 1] atol = 1e-6
+        @test y1 ≈ y[:, 1] atol = 1e-6
     end
 end

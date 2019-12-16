@@ -52,15 +52,26 @@ function Kriging(
 end
 
 
-getx(krg::Kriging, i::Int) = krg.xscaler\view(krg.gps[1].x, :, i)
+getx(krg::Kriging, i::Int) = krg.xscaler \ view(krg.gps[1].x, :, i)
 
-function gety(krg::Kriging{N,M}, i::Int)where{N,M}
+function gety(krg::Kriging{N,M}, i::Int) where {N,M}
     y = similar(krg.gps[1].y, M)
-    @inbounds for j = 1:M
+    @inbounds for j in 1:M
         y[j] = krg.gps[j].y[i]
     end
     inverse!(krg.yscaler, y)
     y
 end
 
-Base.getindex(krg::Kriging, i::Integer) = gety(krg,i), getx(krg,i)
+Base.getindex(krg::Kriging, i::Integer) = gety(krg, i), getx(krg, i)
+
+function get_samples(krg::Kriging{N,M}) where {N,M}
+    x = copy(krg.gps[1].x)
+    y = similar(x, M, size(x, 2))
+    @inbounds for i in 1:M
+        y[i, :] .= krg.gps[i].y
+    end
+    inverse!(krg.xscaler, x)
+    inverse!(krg.yscaler, y)
+    return x, y
+end
