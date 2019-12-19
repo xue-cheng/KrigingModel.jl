@@ -19,12 +19,16 @@
     @testset "predict tests" begin
         y_pred, sig2 = predict_full(krg, xtest)
     end
+    @testset "tune local" begin
+        tune!(krg, ([-10.0, -10.0], [10.0, 10.0]), nothing; verbose = true)
+    end
     @testset "tune" begin
         tune!(
             krg,
             ([-10.0, -10.0], [10.0, 10.0]),
             nothing;
             global_eval = 10000,
+            verbose = true,
         )
     end
     @testset "append" begin
