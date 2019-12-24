@@ -53,6 +53,7 @@ end
 
 
 getx(krg::Kriging, i::Int) = krg.xscaler \ view(krg.gps[1].x, :, i)
+getx(krg::Kriging) = krg.xscaler \ krg.gps[1].x
 
 function gety(krg::Kriging{N,M}, i::Int) where {N,M}
     y = similar(krg.gps[1].y, M)
@@ -63,15 +64,21 @@ function gety(krg::Kriging{N,M}, i::Int) where {N,M}
     y
 end
 
+function gety(krg::Kriging{N,M}) where {N,M}
+    nsamples = length(krg.gps[1].y)
+    y = similar(krg.gps[1].y, M, nsamples)
+    @inbounds for j in 1:nsamples
+        for i in 1:M
+            y[i, j] = krg.gps[i].y[j]
+        end
+    end
+    inverse!(krg.yscaler, y)
+    y
+end
+
 Base.getindex(krg::Kriging, i::Integer) = gety(krg, i), getx(krg, i)
 
+
 function get_samples(krg::Kriging{N,M}) where {N,M}
-    x = copy(krg.gps[1].x)
-    y = similar(x, M, size(x, 2))
-    @inbounds for i in 1:M
-        y[i, :] .= krg.gps[i].y
-    end
-    inverse!(krg.xscaler, x)
-    inverse!(krg.yscaler, y)
-    return x, y
+    getx(krg), gety(krg)
 end

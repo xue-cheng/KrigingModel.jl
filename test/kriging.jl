@@ -40,4 +40,10 @@
         @test x1 ≈ x[:, 1] atol = 1e-6
         @test y1 ≈ y[:, 1] atol = 1e-6
     end
+    @testset "get all" begin
+        x1 = getx(krg)
+        y1 = gety(krg)
+        @test x1 ≈ hcat(x,xtest) atol = 1e-6
+        @test y1 ≈ hcat(y,ytest) atol = 1e-6
+    end
 end
