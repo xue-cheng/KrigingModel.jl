@@ -16,6 +16,7 @@ function Kriging(
     yscaler::Scaler = StandardScaler(y),
     capacity::Integer = 1024,
     stepsize::Integer = 1024,
+    logNoise::Real = log(eps())/2
 )
     nx, mx = size(x)
     ny, my = size(y)
@@ -24,7 +25,6 @@ function Kriging(
     end
     xs = xscaler * x
     ys = yscaler * y
-    logNoise = log((1000 + mx) * eps())
     if isa(mean, GP.Mean)
         mean = [deepcopy(mean) for i in 1:ny]
     elseif length(mean) != ny || !all(isa(mean, GP.Mean))
