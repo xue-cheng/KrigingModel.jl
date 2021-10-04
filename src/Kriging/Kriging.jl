@@ -16,7 +16,7 @@ function Kriging(
     yscaler::Scaler = StandardScaler(y),
     capacity::Integer = 1024,
     stepsize::Integer = 1024,
-    logNoise::Real = log(eps())/2
+    logNoise::Real = log10(eps())/2
 )
     nx, mx = size(x)
     ny, my = size(y)
